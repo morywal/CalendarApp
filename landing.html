@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}Landing Page{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row align-items-center">
+        <div class="col-lg-6 fade-in">
+            <h1 class="display-4 fw-bold">AI-Powered Calendar Assistant</h1>
+            <p class="lead">Optimize your time with intelligent scheduling that works around your life.</p>
+            <p class="mb-4">Input your fixed schedule and tasks, and let our AI suggest the best times to complete them based on your priorities and deadlines.</p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg px-4 me-md-2">Get Started</a>
+                <a href="{{ url_for('auth.login') }}" class="btn btn-outline-secondary btn-lg px-4">Login</a>
+            </div>
+        </div>
+        <div class="col-lg-6 d-none d-lg-block">
+            <img src="{{ url_for('static', filename='img/calendar_illustration.svg') }}" alt="Calendar Illustration" class="img-fluid">
+        </div>
+    </div>
+
+    <div class="row mt-5 pt-5">
+        <div class="col-12 text-center mb-4">
+            <h2 class="fw-bold">How It Works</h2>
+            <p class="lead">Our AI-powered calendar makes scheduling effortless</p>
+        </div>
+    </div>
+
+    <div class="row g-4 py-4">
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="feature-icon bg-primary bg-gradient text-white mb-3 mx-auto" style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-calendar-alt fa-2x"></i>
+                    </div>
+                    <h3 class="fs-4 fw-bold">Input Your Schedule</h3>
+                    <p class="mb-0">Add your fixed commitments like work, school, gym, and sleep hours.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="feature-icon bg-success bg-gradient text-white mb-3 mx-auto" style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-tasks fa-2x"></i>
+                    </div>
+                    <h3 class="fs-4 fw-bold">Add Your Tasks</h3>
+                    <p class="mb-0">Enter tasks with deadlines and priorities, or let AI estimate how long they'll take.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="feature-icon bg-info bg-gradient text-white mb-3 mx-auto" style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-magic fa-2x"></i>
+                    </div>
+                    <h3 class="fs-4 fw-bold">Get Optimal Schedule</h3>
+                    <p class="mb-0">Our AI finds the best times to complete your tasks around your fixed schedule.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5 py-5">
+        <div class="col-md-6">
+            <h2 class="fw-bold">Features</h2>
+            <ul class="list-unstyled">
+                <li class="mb-3">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <strong>Intelligent Scheduling:</strong> AI suggests optimal times for tasks
+                </li>
+                <li class="mb-3">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <strong>Task Duration Estimation:</strong> AI estimates how long tasks will take
+                </li>
+                <li class="mb-3">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <strong>Priority-Based:</strong> Important tasks get scheduled first
+                </li>
+                <li class="mb-3">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <strong>Deadline-Aware:</strong> Tasks with approaching deadlines get priority
+                </li>
+                <li class="mb-3">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <strong>Recurring Events:</strong> Support for daily, weekly, and monthly events
+                </li>
+                <li class="mb-3">
+                    <i class="fas fa-check-circle text-success me-2"></i>
+                    <strong>Responsive Design:</strong> Works on desktop and mobile devices
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <div class="card border-0 shadow">
+                <div class="card-body p-4">
+                    <h3 class="card-title fw-bold">Get Started Today</h3>
+                    <p class="card-text">Create your account and start optimizing your schedule with our AI-powered calendar assistant.</p>
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-primary">Sign Up Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
