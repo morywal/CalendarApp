@@ -7,8 +7,18 @@ import sys
 from app import create_app
 
 # Create the Flask application
-app = create_app()
-
+try:
+    app = create_app()
+    print("App created successfully.")
+    print("Frozen:", getattr(sys, 'frozen', False))
+    print("Base dir:", os.path.dirname(sys.executable) if getattr(sys, 'frozen', False) else os.getcwd())
+    print("Static folder:", app.static_folder)
+    print("Template folder:", app.template_folder)  
+except Exception as e:
+    print(f"Failed to create app: {e}")
+    import traceback
+    traceback.print_exc()
+    sys.exit(1)
 # When running as an executable, we need to set the static folder path
 if getattr(sys, 'frozen', False):
     # Running as compiled executable
