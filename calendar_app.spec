@@ -8,6 +8,8 @@ from PyInstaller.utils.hooks import collect_data_files, collect_submodules
 
 block_cipher = None
 
+console=False
+
 # Collect all necessary data files
 datas = []
 datas += collect_data_files('flask')

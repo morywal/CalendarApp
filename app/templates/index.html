@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block title %}Schedule{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1>Your Schedule</h1>
+            <p class="lead">Manage your fixed schedule items like work, school, gym, and sleep hours.</p>
+        </div>
+        <div class="col-auto">
+            <a href="{{ url_for('schedule.new_schedule_item') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add New Schedule Item
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div id="calendar"></div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Your Fixed Schedule Items</h5>
+                </div>
+                <div class="card-body">
+                    {% if schedule_items %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Category</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Recurrence</th>
+                                    <th>Priority</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in schedule_items %}
+                                <tr>
+                                    <td>
+                                        <span class="color-dot" style="background-color: {{ item.color }}"></span>
+                                        {{ item.title }}
+                                    </td>
+                                    <td>{{ item.category }}</td>
+                                    <td>{{ item.start_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                                    <td>{{ item.end_time.strftime('%Y-%m-%d %H:%M') }}</td>
+                                    <td>{{ item.recurrence_pattern.capitalize() }}</td>
+                                    <td>
+                                        {% set priority_labels = {1: 'Very Low', 2: 'Low', 3: 'Medium', 4: 'High', 5: 'Very High'} %}
+                                        <span class="badge bg-{{ ['secondary', 'info', 'primary', 'warning', 'danger'][item.priority-1] }}">
+                                            {{ priority_labels[item.priority] }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="{{ url_for('schedule.edit_schedule_item', id=item.id) }}" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-sm btn-outline-danger" 
+                                                data-bs-toggle="modal" data-bs-target="#deleteModal{{ item.id }}">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        
+                                        <!-- Delete Confirmation Modal -->
+                                        <div class="modal fade" id="deleteModal{{ item.id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        Are you sure you want to delete "{{ item.title }}"?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                        <form action="{{ url_for('schedule.delete_schedule_item', id=item.id) }}" method="post">
+                                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        <p>You don't have any fixed schedule items yet. Click the "Add New Schedule Item" button to get started.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'timeGridWeek',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            events: "{{ url_for('schedule.get_schedule_items') }}",
+            editable: true,
+            selectable: true,
+            selectMirror: true,
+            dayMaxEvents: true,
+            eventTimeFormat: {
+                hour: 'numeric',
+                minute: '2-digit',
+                meridiem: 'short'
+            },
+            select: function(arg) {
+                window.location.href = "{{ url_for('schedule.new_schedule_item') }}";
+            },
+            eventClick: function(info) {
+                window.location.href = "{{ url_for('schedule.edit_schedule_item', id=0) }}".replace('0', info.event.id);
+            }
+        });
+        calendar.render();
+    });
+</script>
+{% endblock %}
